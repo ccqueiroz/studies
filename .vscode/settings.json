@@ -1,0 +1,6 @@
+{
+  "window.zoomLevel": 0,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "liveServer.settings.root": "/out",
+  "prettier.configPath": "./.prettierrc.js"
+}
