@@ -1,70 +1,118 @@
-# Getting Started with Create React App
+# Internet Brasil | Documentação Testes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Comandos
+- `npm run test:watch`: abre o test runner no modo watch, observando os novos testes realizados. Sendo necessário passar a flag `p` e o path do arquivo que deseja Testar.
 
-## Available Scripts
+1. Ordem de recomendação de buscas nas queries de testes:
+<ul>
+  <li>ByRole - Acessibilidade</li>
+  <li>ByText - Semântica</li>
+  <li>ByTestId - Id de testes implementado em um ponto da árvore de componentes</li>
+</ul>
 
-In the project directory, you can run:
+# Obs
+1.1. As queries que iniciam com getBy e queryBy, possuem processo síncrono, sendo que a diferença entre eles está no getBy ao possuir 0 matches retorna throw error, enquanto que a queryBy retorna null.
+1.2. A query findBy é executada em um processo assíncrono, retornando um throw error quando não for identificado matches.
 
-### `npm start`
+# Os testes devem levar em conta a usuabilidade do sistema. Evitando assim, realizar testes de implementações diretas.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### O ideal é que sejam testados os casos de uso ao qual um componente | função pode ser submetido.
+<p>
+  Como exemplo, Um componente recebe parâmetros (a, b) e em sua lógica é analisado os valores de a e b, onde cada parâmetro terá um retorno de um texto dentro de um input.
+  Com isso, o teste do componente deve cobrir a entrada dos parâmetros (tipos), e retorno do texto no input. Testando os diferentes casos que possam existir.
+</p>
+<pre>
+  import React from 'react';
+  import { render, screen, waitFor } from '@testing-library/react';
+  import BoxInputAlterationLimit from '../../../submodules/BenefitAnalyzeMain/fragments/BenefitTabAnalyze/fragments/BoxInputAlterationLimit';
+  import BenefitAnalyzeModule from '../../../lang/ptBr';
+  import '@testing-library/jest-dom/extend-expect';
+  import { AppTest } from 'index.toTest';
+  import { generalUseCase } from 'services/providers/general';
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  const mockHandleGetParameters = ({ success, value }) => {
+    handleGetParameters.mockImplementationOnce(() => Promise.resolve(
+      { success, data: [{ value }] }
+    ));
+  }
 
-### `npm test`
+  jest.spyOn(console, 'error');
+  const handleGetParameters = jest.spyOn(generalUseCase, 'handleGetParameters');
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  describe('BenefitAnalyzeAlterationLimit', () => {
 
-### `npm run build`
+    afterEach(() => {
+      handleGetParameters.mockClear();
+    })
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    it('renders without crashing', () => {
+      render(<AppTest><BoxInputAlterationLimit /></AppTest>);
+      const component = screen.getByTestId('box-input-alteration-limit')
+      expect(component).toBeInTheDocument();
+    })
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    it('test if box title is "Parâmetro para limite de alteração definido"', () => {
+      render(<AppTest><BoxInputAlterationLimit /></AppTest>);
+      const langTitle = BenefitAnalyzeModule.BENEFIT_ANALYZE_LIST.BOX_TITLE_ALTERATION_LIMIT;
+      const boxTitle = screen.getByText(langTitle);
+      expect(boxTitle).toBeInTheDocument();
+    })
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    it('test if input is readOnly and disabled', async () => {
+      mockHandleGetParameters({ success: true, value: 5 });
 
-### `npm run eject`
+      const { rerender } = render(<AppTest><BoxInputAlterationLimit /></AppTest>);
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+      await waitFor(() => {
+        rerender(<AppTest><BoxInputAlterationLimit /></AppTest>);
+      })
+      const component = screen.getByTestId('box-input-alteration-limit');
+      const input = component.querySelector('input');
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+      expect(input.readOnly).toBeTruthy();
+      expect(input).toBeDisabled();
+    })
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    it('test if input value is 5%', async () => {
+      mockHandleGetParameters({ success: true, value: 5 });
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+      const { rerender } = render(<AppTest><BoxInputAlterationLimit /></AppTest>);
 
-## Learn More
+      await waitFor(() => {
+        rerender(<AppTest><BoxInputAlterationLimit /></AppTest>);
+      });
+      const component = screen.getByTestId('box-input-alteration-limit');
+      const input = component.querySelector('input');
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+      expect(input.value).toBe('5%');
+    });
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    it('test if error occurs with handleGetParameters', async () => {
+      mockHandleGetParameters({ success: false, value: 5 });
 
-### Code Splitting
+      const { rerender } = render(<AppTest><BoxInputAlterationLimit /></AppTest>);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+      await waitFor(() => {
+        rerender(<AppTest><BoxInputAlterationLimit /></AppTest>);
+      });
+      const langTitleError = BenefitAnalyzeModule.BENEFIT_ANALYZE_LIST.BOX_TITLE_ALTERATION_LIMIT_LOAD_ERROR;
+      const textError = screen.queryByText(langTitleError);
+      const input = screen.queryByTestId('box-input-alteration-limit-input');
 
-### Analyzing the Bundle Size
+      expect(textError).toBeInTheDocument();
+      expect(input).not.toBeInTheDocument();
+    });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    it('should be create snapshot', async () => {
+      mockHandleGetParameters({ success: true, value: 5 });
 
-### Making a Progressive Web App
+      let containerComponent;
+      await waitFor(() => {
+        const { container } = render(<AppTest><BoxInputAlterationLimit /></AppTest>);
+        containerComponent = container;
+      });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+      expect(containerComponent).toMatchSnapshot();
+    });
+  });
+</pre>
