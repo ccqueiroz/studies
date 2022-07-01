@@ -22,25 +22,23 @@
   Com isso, o teste do componente deve cobrir a entrada dos parâmetros (tipos), e retorno do texto no input. Testando os diferentes casos que possam existir.
 </p>
 <pre>
-  import React from 'react';
-  import { render, screen, waitFor } from '@testing-library/react';
-  import BoxInputAlterationLimit from '../../../submodules/BenefitAnalyzeMain/fragments/BenefitTabAnalyze/fragments/BoxInputAlterationLimit';
-  import BenefitAnalyzeModule from '../../../lang/ptBr';
-  import '@testing-library/jest-dom/extend-expect';
-  import { AppTest } from 'index.toTest';
-  import { generalUseCase } from 'services/providers/general';
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import BoxInputAlterationLimit from '../../../submodules/BenefitAnalyzeMain/fragments/BenefitTabAnalyze/fragments/BoxInputAlterationLimit';
+import BenefitAnalyzeModule from '../../../lang/ptBr';
+import '@testing-library/jest-dom/extend-expect';
+import { AppTest } from 'index.toTest';
+import { generalUseCase } from 'services/providers/general';
 
-  const mockHandleGetParameters = ({ success, value }) => {
-    handleGetParameters.mockImplementationOnce(() => Promise.resolve(
-      { success, data: [{ value }] }
-    ));
-  }
+const mockHandleGetParameters = ({ success, value }) => {
+  handleGetParameters.mockImplementationOnce(() => Promise.resolve(
+    { success, data: [{ value }] }
+  ));
+}
 
   jest.spyOn(console, 'error');
   const handleGetParameters = jest.spyOn(generalUseCase, 'handleGetParameters');
-
   describe('BenefitAnalyzeAlterationLimit', () => {
-
     afterEach(() => {
       handleGetParameters.mockClear();
     })
