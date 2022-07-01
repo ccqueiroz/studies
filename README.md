@@ -31,14 +31,14 @@ import {AppTest} from 'index.toTest';
 import {generalUseCase} from 'services/providers/general';
 
 jest.spyOn(console, 'error'); //Mock console
-/**
+/*
  * Forma de realizar mock em objetos instanciados por useCase
  * jest.spyOn(object, método)
  */
 const handleGetParameters = jest.spyOn(generalUseCase, 'handleGetParameters');
 
 const mockHandleGetParameters = ({success, value}) => {
-  /**
+  /*
    * Após ter realizado o mock do método desejado, deve-se dar escorpo para que assim,
    * se comporte da forma desejada.
    */
@@ -49,7 +49,7 @@ const mockHandleGetParameters = ({success, value}) => {
 
 describe('BenefitAnalyzeAlterationLimit', () => {
   afterEach(() => {
-    /** É recomendável sempre limpar ou restaurar os mocks após cada teste. */
+    /** É recomendável sempre limpar ou restaurar os mocks após cada teste. **/
     handleGetParameters.mockClear();
   });
 
