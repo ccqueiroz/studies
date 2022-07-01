@@ -19,6 +19,16 @@ export const theme = {
       huge: '5.6rem',
       xhuge: '6.4rem',
     },
+    letterSpacing: {
+      none: 'unset',
+      xsmall: '0.1rem',
+      small: '0.2rem',
+      medium: '0.3rem',
+      large: '0.5rem',
+      xlarge: '0.75rem',
+      huge: '0.9rem',
+      xhuge: '1rem',
+    },
   },
   media: {
     ltMedium: '(max-width: 768px)',
