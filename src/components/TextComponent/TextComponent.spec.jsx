@@ -7,15 +7,15 @@ import { theme } from '../../styles/theme';
 describe('[Component]: <TextComponent />', () => {
   it('Should be render text paragraph', () => {
     renderThemeProvider(
-      <TextComponent>Paragráfo do texto aqui.</TextComponent>,
+      <TextComponent>Parágrafo do texto aqui.</TextComponent>,
     );
-    expect(screen.getByText(/Paragráfo do texto aqui./)).toBeInTheDocument();
+    expect(screen.getByText(/Parágrafo do texto aqui./)).toBeInTheDocument();
   });
   it('Should be render text paragraph with default values', () => {
     renderThemeProvider(
-      <TextComponent>Paragráfo do texto aqui.</TextComponent>,
+      <TextComponent>Parágrafo do texto aqui.</TextComponent>,
     );
-    expect(screen.getByText(/Paragráfo do texto aqui./)).toHaveStyle({
+    expect(screen.getByText(/Parágrafo do texto aqui./)).toHaveStyle({
       'font-size': theme.font.sizes.medium,
       'line-height': 'unset',
       'letter-spacing': theme.font.letterSpacing.none,
@@ -34,10 +34,10 @@ describe('[Component]: <TextComponent />', () => {
         wordBreak={false}
         textEllipsis={true}
       >
-        Paragráfo do texto aqui.
+        Parágrafo do texto aqui.
       </TextComponent>,
     );
-    expect(screen.getByText(/Paragráfo do texto aqui./)).toHaveStyle({
+    expect(screen.getByText(/Parágrafo do texto aqui./)).toHaveStyle({
       'line-height': theme.font.sizes.large,
       'letter-spacing': theme.font.letterSpacing.small,
       'text-indent': '5rem',
@@ -50,7 +50,7 @@ describe('[Component]: <TextComponent />', () => {
   });
   it('Should be created snapshot component', () => {
     const { container } = renderThemeProvider(
-      <TextComponent>Paragráfo do texto aqui.</TextComponent>,
+      <TextComponent>Parágrafo do texto aqui.</TextComponent>,
     );
     expect(container).toMatchSnapshot();
   });
