@@ -29,15 +29,16 @@ import BenefitAnalyzeModule from '../../../lang/ptBr';
 import '@testing-library/jest-dom/extend-expect';
 import { AppTest } from 'index.toTest';
 import { generalUseCase } from 'services/providers/general';
-
-const mockHandleGetParameters = ({ success, value }) => {
-\thandleGetParameters.mockImplementationOnce(() => Promise.resolve(
-\t{ success, data: [{ value }] }
-\t));
-}
-
+</pre>
+</pre>
+  const mockHandleGetParameters = ({ success, value }) => {
+    handleGetParameters.mockImplementationOnce(() => Promise.resolve(
+    { success, data: [{ value }] }
+    ));
+  }
   jest.spyOn(console, 'error');
   const handleGetParameters = jest.spyOn(generalUseCase, 'handleGetParameters');
+
   describe('BenefitAnalyzeAlterationLimit', () => {
     afterEach(() => {
       handleGetParameters.mockClear();
