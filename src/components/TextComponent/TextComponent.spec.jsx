@@ -48,4 +48,10 @@ describe('[Component]: <TextComponent />', () => {
       'white-space': 'nowrap',
     });
   });
+  it('Should be created snapshot component', () => {
+    const { container } = renderThemeProvider(
+      <TextComponent>Paragráfo do texto aqui.</TextComponent>,
+    );
+    expect(container).toMatchSnapshot();
+  });
 });

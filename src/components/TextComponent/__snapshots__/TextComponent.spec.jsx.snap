@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Component]: <TextComponent /> Should be created snapshot component 1`] = `
+.c0 {
+  font-size: 2.4rem;
+  line-height: unset;
+  -webkit-letter-spacing: unset;
+  -moz-letter-spacing: unset;
+  -ms-letter-spacing: unset;
+  letter-spacing: unset;
+  text-indent: 0;
+  text-align: start;
+  word-break: break-word;
+  text-overflow: unset;
+  white-space: unset;
+  overflow: unset;
+}
+
+<div>
+  <p
+    class="c0"
+    letter-spacing="unset"
+  >
+    Paragráfo do texto aqui.
+  </p>
+</div>
+`;

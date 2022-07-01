@@ -87,4 +87,12 @@ describe('[Component]: <Heading />', () => {
 
     expect(h6.tagName.toLowerCase()).toBe('h6');
   });
+
+  it('Should be created snapshot component', () => {
+    const { container } = renderThemeProvider(
+      <Heading>Texto de Teste</Heading>,
+    );
+
+    expect(container).toMatchSnapshot();
+  });
 });
