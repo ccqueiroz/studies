@@ -31,9 +31,9 @@ import { AppTest } from 'index.toTest';
 import { generalUseCase } from 'services/providers/general';
 
 const mockHandleGetParameters = ({ success, value }) => {
-  handleGetParameters.mockImplementationOnce(() => Promise.resolve(
-      { success, data: [{ value }] }
-    ));
+\thandleGetParameters.mockImplementationOnce(() => Promise.resolve(
+\t{ success, data: [{ value }] }
+\t));
 }
 
   jest.spyOn(console, 'error');
